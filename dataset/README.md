@@ -1,4 +1,0 @@
-# Deepstudy
-dfasefswfe
-#fesfsfse
-##fefsef
