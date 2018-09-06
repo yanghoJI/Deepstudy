@@ -1,6 +1,6 @@
 # Deepstudy
 
-##label info
+## label info
 
 0. 오징어짬뽕
 
