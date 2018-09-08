@@ -99,14 +99,14 @@ def train(epoch):
         #data, target = Variable(data), Variable(target)
         #The Variable API has been deprecated: Variables are no longer necessary
         t1 = time.time()
-        data.to(device)
-        target.to(device)
+        data = data.to(device)
+        target = target.to(device)
         optimizer.zero_grad()
         output = model(data)
         loss = F.nll_loss(output, target)
         loss.backward()
         optimizer.step()
-        if batch_idx % 5 == 0:
+        if batch_idx % 10 == 0:
             print('\n##############################')
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
@@ -125,8 +125,8 @@ def test():
     correct = 0
     for data, target in test_loader:
         #data, target = Variable(data, volatile=True), Variable(target)
-        data.to(device)
-        target.to(device)
+        data = data.to(device)
+        target = target.to(device)
         output = model(data)
         # sum up batch loss
         test_loss += F.nll_loss(output, target, reduction='sum').item()
@@ -144,6 +144,6 @@ def test():
 
 
 
-for epoch in range(1, 10):
+for epoch in range(1, 100):
     train(epoch)
 
