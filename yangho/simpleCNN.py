@@ -24,7 +24,9 @@ train_dataset = ImageFolder(root='../dataset/',transform=transferF)
 # Data Loader (Input Pipeline)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                            batch_size=batch_size,
-                                           shuffle=True)
+                                           shuffle=True,
+                                           num_workers=3)
+
 
 for batch_idx, (data, target) in enumerate(train_loader):
     data, target = Variable(data), Variable(target)
