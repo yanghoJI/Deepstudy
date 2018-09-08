@@ -5,30 +5,33 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torchvision import datasets, transforms
+#from torchvision import datasets, transforms
 from torch.autograd import Variable
+from torchvision.transforms import RandomCrop, Resize, Compose, ToTensor
+from torchvision.datasets import ImageFolder
+
 
 # Training settings
-batch_size = 64
+batch_size = 10
 
-# MNIST Dataset
-train_dataset = datasets.MNIST(root='./data/',
-                               train=True,
-                               transform=transforms.ToTensor(),
-                               download=True)
+# noodle Dataset
+transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor()])
+train_dataset = ImageFolder(root='../dataset/',transform=transferF)
 
-test_dataset = datasets.MNIST(root='./data/',
-                              train=False,
-                              transform=transforms.ToTensor())
+
+#test_dataset = datasets.MNIST(root='./data/',
 
 # Data Loader (Input Pipeline)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                            batch_size=batch_size,
                                            shuffle=True)
 
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
-                                          batch_size=batch_size,
-                                          shuffle=False)
+for batch_idx, (data, target) in enumerate(train_loader):
+    data, target = Variable(data), Variable(target)
+    print(10)
+#test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
+#                                          batch_size=batch_size,
+#                                          shuffle=False)
 
 
 class Net(nn.Module):
