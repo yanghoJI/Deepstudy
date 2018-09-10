@@ -130,6 +130,7 @@ def train(epoch):
 
 def test():
     global bestacc
+    global Net
     model.eval()
     test_loss = 0
     correct = 0
@@ -152,7 +153,7 @@ def test():
     teacc.append(100. * correct / len(test_loader.dataset))
     if teacc[-1] > bestacc:
         bestacc = teacc[-1]
-        torch.save(Net, 'bestmodel.pb')
+        torch.save(model, 'bestmodel33.pb')
         print('best model is updated')
     model.train()
 

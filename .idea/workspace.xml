@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3761d252-ed58-49a3-993d-d3b6dcf81acf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/yangho/TrainGraphWithxavier.png" beforeDir="false" afterPath="$PROJECT_DIR$/yangho/TrainGraphWithxavier.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yangho/simpleCNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/yangho/simpleCNN.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +17,41 @@
       <file leaf-file-name="simpleCNN.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
+            <state relative-caret-position="379">
+              <caret line="163" column="16" lean-forward="true" selection-start-line="163" selection-start-column="16" selection-end-line="163" selection-end-column="16" />
+              <folding>
+                <element signature="e#64#101#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simpleCNNv2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yangho/simpleCNNv2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="426">
+              <caret line="193" lean-forward="true" selection-start-line="193" selection-end-line="193" />
+              <folding>
+                <element signature="e#64#101#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/conv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="300" selection-start-line="300" selection-end-line="300" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="whatNodleV1.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yangho/whatNodleV1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="50" selection-start-line="50" selection-end-line="50" />
               <folding>
                 <element signature="e#64#101#0" expanded="true" />
               </folding>
@@ -38,8 +71,8 @@
       <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-592">
-              <caret line="759" column="48" selection-start-line="759" selection-start-column="34" selection-end-line="759" selection-end-column="48" />
+            <state relative-caret-position="200">
+              <caret line="378" selection-start-line="378" selection-end-line="378" />
             </state>
           </provider>
         </entry>
@@ -98,6 +131,8 @@
         <option value="$PROJECT_DIR$/dataset/train/split_dataset.py" />
         <option value="$PROJECT_DIR$/dataset/split_dataset.py" />
         <option value="$PROJECT_DIR$/yangho/simpleCNN_BN.py" />
+        <option value="$PROJECT_DIR$/yangho/whatNodleV1.py" />
+        <option value="$PROJECT_DIR$/yangho/simpleCNNv2.py" />
         <option value="$PROJECT_DIR$/yangho/simpleCNN.py" />
       </list>
     </option>
@@ -125,6 +160,12 @@
               <item name="Deepstudy" type="b2602c69:ProjectViewProjectNode" />
               <item name="Deepstudy" type="462c0819:PsiDirectoryNode" />
               <item name="dataset" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Deepstudy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Deepstudy" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+              <item name="val" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Deepstudy" type="b2602c69:ProjectViewProjectNode" />
@@ -158,7 +199,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.simpleCNN">
+  <component name="RunManager" selected="Python.simpleCNNv2">
     <configuration name="simpleCNN" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Deepstudy" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -195,6 +236,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="simpleCNNv2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Deepstudy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/yangho" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/yangho/simpleCNNv2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="split_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Deepstudy" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -213,13 +272,35 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="whatNodleV1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Deepstudy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/yangho" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/yangho/whatNodleV1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.simpleCNN" />
       <item itemvalue="Python.split_dataset" />
       <item itemvalue="Python.simpleCNN_BN" />
+      <item itemvalue="Python.whatNodleV1" />
+      <item itemvalue="Python.simpleCNNv2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.simpleCNNv2" />
+        <item itemvalue="Python.whatNodleV1" />
         <item itemvalue="Python.simpleCNN" />
         <item itemvalue="Python.simpleCNN_BN" />
         <item itemvalue="Python.split_dataset" />
@@ -241,13 +322,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19622642" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19622642" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32991803" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32991803" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32991803" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -284,12 +364,17 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/yangho/simpleCNN.py</url>
-          <line>161</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/yangho/whatNodleV1.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/yangho/simpleCNNv2.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="20" />
+      <option name="time" value="34" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -534,13 +619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-592">
-          <caret line="759" column="48" selection-start-line="759" selection-start-column="34" selection-end-line="759" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="640">
@@ -562,6 +640,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="378" selection-start-line="378" selection-end-line="378" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -569,10 +654,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/yangho/whatNodleV1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="e#64#101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/val/0/45.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/val/1/10010.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/val/2/20045.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/val/3/30011.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="300" selection-start-line="300" selection-end-line="300" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yangho/simpleCNNv2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="193" lean-forward="true" selection-start-line="193" selection-end-line="193" />
+          <folding>
+            <element signature="e#64#101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
+        <state relative-caret-position="379">
+          <caret line="163" column="16" lean-forward="true" selection-start-line="163" selection-start-column="16" selection-end-line="163" selection-end-column="16" />
           <folding>
             <element signature="e#64#101#0" expanded="true" />
           </folding>
