@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 import cv2
+import random as r
+import os
 
 
 class Net(nn.Module):
@@ -121,7 +123,7 @@ print('runing device : {}'.format(device))
 # Training settings
 batch_size = 64
 bestacc = 0
-train_mode = False
+train_mode = True
 
 
 # noodle Dataset build
@@ -133,7 +135,7 @@ test_dataset = ImageFolder(root='../dataset/val/',transform=transferFte)
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                            batch_size=batch_size,
                                            shuffle=True,
-                                           num_workers=3)
+                                           num_workers=2)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                            batch_size=batch_size,
                                            shuffle=True)
@@ -171,7 +173,7 @@ if train_mode == True:
                 teloss.append(teloss_)
                 teacc.append(teacc_)
                 if teacc_ > bestacc:
-                    bestacc = teacc
+                    bestacc = teacc_
                     torch.save(model, 'bestmodel33.pb')
                     print('best model is updated')
 
@@ -182,7 +184,12 @@ else:
     # test model
 
     model = torch.load('./bestmodel33.pb')
-    img = cv2.imread('../dataset/val/0/45.png')
+    dirlist = os.listdir('../dataset/val/')
+    dirpath = os.path.join('../dataset/val/', r.sample(dirlist, 1)[0])
+    filelist = os.listdir(dirpath)
+    filepath = os.path.join(dirpath, r.sample(filelist, 1)[0])
+    #img = cv2.imread('../dataset/val/0/45.png')
+    img = cv2.imread(filepath)
     sol = model.predict(img, device)
     print('prediction : {}'.format(sol))
     cv2.imshow('result', img)
