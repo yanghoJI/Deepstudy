@@ -14,13 +14,15 @@ import time
 
 # Training settings
 batch_size = 64
+bestacc = 0
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('runing device : {}'.format(device))
 # noodle Dataset
 transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor()])
+transferFte = Compose([Resize([224, 224]), ToTensor()])
 train_dataset = ImageFolder(root='../dataset/train/',transform=transferF)
-test_dataset = ImageFolder(root='../dataset/val/',transform=transferF)
+test_dataset = ImageFolder(root='../dataset/val/',transform=transferFte)
 
 
 # Data Loader (Input Pipeline)
@@ -41,6 +43,7 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
+        self.imagesize = (224,224,3)
         self.conv1 = nn.Conv2d(3, 10, kernel_size=5, padding=2)     #out 10,224,224
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5, padding=2)    #out 20,224,224
         self.mp1 = nn.MaxPool2d(2)                                   #out 20,112,112
@@ -96,7 +99,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraphWithxavier.png', dpi=300)
+    plt.savefig('TrainGraphWithxavier#2.png', dpi=300)
     plt.close()
 
 def train(epoch):
@@ -126,6 +129,7 @@ def train(epoch):
 
 
 def test():
+    global bestacc
     model.eval()
     test_loss = 0
     correct = 0
@@ -146,10 +150,15 @@ def test():
         100. * correct / len(test_loader.dataset)))
     teloss.append(test_loss)
     teacc.append(100. * correct / len(test_loader.dataset))
+    if teacc[-1] > bestacc:
+        bestacc = teacc[-1]
+        torch.save(Net, 'bestmodel.pb')
+        print('best model is updated')
     model.train()
 
 
 
-for epoch in range(1, 100):
+
+for epoch in range(1, 50):
     train(epoch)
 

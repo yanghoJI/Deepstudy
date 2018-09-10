@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3761d252-ed58-49a3-993d-d3b6dcf81acf" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/yangho/simpleCNN_BN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yangho/TrainGraphWithxavier.png" beforeDir="false" afterPath="$PROJECT_DIR$/yangho/TrainGraphWithxavier.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yangho/simpleCNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/yangho/simpleCNN.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +17,8 @@
       <file leaf-file-name="simpleCNN.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="42" column="35" lean-forward="true" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+            <state relative-caret-position="432">
+              <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
               <folding>
                 <element signature="e#64#101#0" expanded="true" />
               </folding>
@@ -26,23 +26,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="simpleCNN_BN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yangho/simpleCNN_BN.py">
+      <file leaf-file-name="functional.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/functional.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
+            <state relative-caret-position="640">
+              <caret line="51" selection-start-line="51" selection-end-line="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="module.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-592">
+              <caret line="759" column="48" selection-start-line="759" selection-start-column="34" selection-end-line="759" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="split_dataset.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dataset/split_dataset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="312">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
-                <element signature="e#64#101#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="11_1_toy_inception_mnist.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yangho/11_1_toy_inception_mnist.py">
+      <file leaf-file-name="pydevd.py" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
+            <state relative-caret-position="418">
+              <caret line="1663" selection-start-line="1663" selection-end-line="1663" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_pydev_execfile.py" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
             </state>
           </provider>
         </entry>
@@ -59,6 +86,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>datasets</find>
+      <find>bestacc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -69,8 +97,8 @@
       <list>
         <option value="$PROJECT_DIR$/dataset/train/split_dataset.py" />
         <option value="$PROJECT_DIR$/dataset/split_dataset.py" />
-        <option value="$PROJECT_DIR$/yangho/simpleCNN.py" />
         <option value="$PROJECT_DIR$/yangho/simpleCNN_BN.py" />
+        <option value="$PROJECT_DIR$/yangho/simpleCNN.py" />
       </list>
     </option>
   </component>
@@ -85,6 +113,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -106,7 +135,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -130,7 +158,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.simpleCNN_BN">
+  <component name="RunManager" selected="Python.simpleCNN">
     <configuration name="simpleCNN" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Deepstudy" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -192,8 +220,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.simpleCNN_BN" />
         <item itemvalue="Python.simpleCNN" />
+        <item itemvalue="Python.simpleCNN_BN" />
         <item itemvalue="Python.split_dataset" />
       </list>
     </recent_temporary>
@@ -212,19 +240,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-11" width="2497" height="1452" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19559118" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19622642" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32991803" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32991803" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32934132" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.32889345" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.32784432" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19583334" />
@@ -239,7 +268,6 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
     </layout>
@@ -255,11 +283,84 @@
           <line>26</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/yangho/simpleCNN.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="16" />
+      <option name="time" value="20" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+          <folding>
+            <element signature="e#64#101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/train/split_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataset/split_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-592">
+          <caret line="759" column="48" selection-start-line="759" selection-start-column="34" selection-end-line="759" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2016">
+          <caret line="9" column="31" lean-forward="true" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding>
+            <element signature="e#64#101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2134">
@@ -422,24 +523,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23474">
-          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dataset/train/split_dataset.py" />
     <entry file="file://$PROJECT_DIR$/dataset/split_dataset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
+        <state relative-caret-position="312">
           <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -447,22 +534,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py" />
-    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/functional.py" />
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-592">
+          <caret line="759" column="48" selection-start-line="759" selection-start-column="34" selection-end-line="759" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/yangho/simpleCNN_BN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
-          <folding>
-            <element signature="e#64#101#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="1663" selection-start-line="1663" selection-end-line="1663" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yangho/simpleCNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="42" column="35" lean-forward="true" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+        <state relative-caret-position="432">
+          <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
           <folding>
             <element signature="e#64#101#0" expanded="true" />
           </folding>
