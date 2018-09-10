@@ -73,7 +73,7 @@ class Net(nn.Module):
 
 
 model = Net()
-#model.apply(weight_init)
+model.apply(weight_init)
 model.to(device)
 
 optimizer = optim.Adam(model.parameters(), lr=0.0005)
@@ -100,7 +100,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('batchNor.png', dpi=300)
+    plt.savefig('batchNorWithxavier.png', dpi=300)
     plt.close()
 
 def train(epoch):
