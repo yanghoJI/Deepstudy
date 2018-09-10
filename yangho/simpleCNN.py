@@ -32,6 +32,10 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                            batch_size=batch_size,
                                            shuffle=True)
 
+def weight_init(m):
+    if isinstance(m, torch.nn.Conv2d) or isinstance(m, torch.nn.Linear):
+        torch.nn.init.xavier_uniform_(m.weight)
+
 
 class Net(nn.Module):
 
@@ -51,6 +55,7 @@ class Net(nn.Module):
 
     def forward(self, x):
         in_size = x.size(0)
+
         x = F.relu(self.conv1(x))
         x = F.relu(self.mp1(self.conv2(x)))
 
@@ -65,6 +70,7 @@ class Net(nn.Module):
 
 
 model = Net()
+model.apply(weight_init)
 model.to(device)
 
 optimizer = optim.Adam(model.parameters(), lr=0.0005)
@@ -90,7 +96,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraph.png', dpi=300)
+    plt.savefig('TrainGraphWithxavier.png', dpi=300)
     plt.close()
 
 def train(epoch):
