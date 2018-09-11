@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torchvision.transforms import Compose, ToTensor, RandomRotation, RandomHorizontalFlip
+from torchvision.transforms import Compose, Resize, RandomCrop, ToTensor, RandomRotation, RandomHorizontalFlip
 from torchvision.datasets import ImageFolder
 import matplotlib.pyplot as plt
 import time
@@ -17,7 +17,8 @@ batch_size = 64
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('runing device : {}'.format(device))
 
-transferF = Compose([RandomRotation([.5,5]),RandomHorizontalFlip(), ToTensor()])
+# transferF = Compose([RandomRotation([.5,5]),RandomHorizontalFlip(), ToTensor()])
+transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor()])
 train_dataset = ImageFolder(root='../dataset/train/',transform=transferF)
 test_dataset = ImageFolder(root='../dataset/val/',transform=transferF)
 
@@ -35,24 +36,78 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 10, kernel_size=5)
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
+        self.conv1 = nn.Conv2d(1, 10, kernel_size=5, padding=2)
+        self.conv1_2 = nn.Conv2d(10, 20, kernel_size=5, padding=2)
+#        self.conv1_3 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+#        self.conv1_4 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+
+        self.conv2 = nn.Conv2d(1, 10, kernel_size=5, padding=2)
+        self.conv2_2 = nn.Conv2d(10, 20, kernel_size=5, padding=2)
+#        self.conv2_3 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+#        self.conv2_4 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+
+        self.conv3 = nn.Conv2d(1, 10, kernel_size=5, padding=2)
+        self.conv3_2 = nn.Conv2d(10, 20, kernel_size=5, padding=2)
+#        self.conv3_3 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+#        self.conv3_4 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+
+        self.conv4 = nn.Conv2d(60, 20, kernel_size=3, padding=1)f
+        self.conv4_2 = nn.Conv2d(20, 20, kernel_size=3, padding=1)
+
         self.mp = nn.MaxPool2d(2)
-        self.fc = nn.Linear(320, 10)
+
+        self.fc1 = nn.Linear(20 * 56 * 56, 512)
+        self.fc2 = nn.Linear(512, 4)
+
 
     def forward(self, x):
         in_size = x.size(0)
-        x = F.relu(self.mp(self.conv1(x)))
-        x = F.relu(self.mp(self.conv2(x)))
-        x = x.view(in_size, -1)  # flatten the tensor
-        x = self.fc(x)
+
+        ch1 = x[:,0,:,:]
+        ch2 = x[:,1,:,:]
+        ch3 = x[:,2,:,:]
+
+        ch1 = ch1.view(-1,1,224,224)
+        ch2 = ch2.view(-1,1,224,224)
+        ch3 = ch3.view(-1,1,224,224)
+
+
+        ch1 = F.relu(self.conv1(ch1))
+        ch1 = F.relu(self.mp(self.conv1_2(ch1)))
+#        ch1 = F.relu(self.conv1_3(ch1))
+#        ch1 = F.relu(self.mp(self.conv1_4(ch1)))
+
+        ch2 = F.relu(self.conv2(ch2))
+        ch2 = F.relu(self.mp(self.conv2_2(ch2)))
+#        ch2 = F.relu(self.conv2_3(ch2))
+#        ch2 = F.relu(self.mp(self.conv2_4(ch2)))
+
+        ch3 = F.relu(self.conv3(ch3))
+        ch3 = F.relu(self.mp(self.conv3_2(ch3)))
+#        ch3 = F.relu(self.conv3_3(ch3))
+#        ch3 = F.relu(self.mp(self.conv3_4(ch3)))
+
+#        ch1 = ch1.view(in_size, 1, -1)  # flatten the tensor
+#        ch2 = ch2.view(in_size, 1, -1)  # flatten the tensor
+#        ch3 = ch3.view(in_size, 1, -1)  # flatten the tensor
+
+        x = torch.cat([ch1, ch2, ch3], 1)
+        x = F.relu(self.conv4(x))
+        x = F.relu(self.mp(self.conv4_2(x)))
+#        x = torch.sum(x, 1)
+        x = x.view(in_size,-1)
+
+        x = self.fc1(x)
+        x = self.fc2(x)
+
+
         return F.log_softmax(x)
 
 
 model = Net()
 model.to(device)
 
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=0.0005)
 trloss, teloss, teacc = [], [], []
 
 def plotdata(trl, tel, tea):
@@ -75,7 +130,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraph.png', dpi=300)
+    plt.savefig('TrainGraph#3.png', dpi=300)
     plt.close()
 
 def train(epoch):
