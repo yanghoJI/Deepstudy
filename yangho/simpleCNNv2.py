@@ -13,6 +13,7 @@ import time
 import cv2
 import random as r
 import os
+from PIL import Image
 
 
 class Net(nn.Module):
@@ -50,8 +51,10 @@ class Net(nn.Module):
         return F.log_softmax(x, dim=1)      #dim = classes dimension
 
     def predict(self, imgarr, device):
-        inimage = cv2.resize(imgarr, (self.imagesize[0], self.imagesize[1]))
-        inimage = np.expand_dims(np.transpose(inimage, (2, 0, 1)), axis=0) / 255
+        inimage = cv2.cvtColor(imgarr, cv2.COLOR_BGR2RGB)
+        inimage = cv2.resize(inimage, (self.imagesize[0], self.imagesize[1]))
+        inimage = np.transpose(inimage, (2, 0, 1)) / 255
+        inimage = np.expand_dims(inimage, axis=0)
         inimage = torch.tensor(inimage.astype('float32'))
         inimage = inimage.to(device)
         netout = self.forward(torch.tensor(inimage))
@@ -85,7 +88,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraphWithxavier#2.png', dpi=300)
+    plt.savefig('TrainGraphWithxavier#3.png', dpi=300)
     plt.close()
 
 
@@ -117,13 +120,13 @@ def test(model_, loader, device):
 
 # device check
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#device = torch.device("cpu")
 print('runing device : {}'.format(device))
-
 
 # Training settings
 batch_size = 64
 bestacc = 0
-train_mode = True
+train_mode = False
 
 
 # noodle Dataset build
@@ -150,7 +153,7 @@ if train_mode == True:
     optimizer = optim.Adam(model.parameters(), lr=0.0005)
     trloss, teloss, teacc = [], [], []
     bestacc = 0
-    for epoch in range(1, 50):
+    for epoch in range(1, 30):
         model.train()
         for batch_idx, (data, target) in enumerate(train_loader):
             # data, target = Variable(data), Variable(target)
@@ -174,7 +177,7 @@ if train_mode == True:
                 teacc.append(teacc_)
                 if teacc_ > bestacc:
                     bestacc = teacc_
-                    torch.save(model, 'bestmodel33.pb')
+                    torch.save(model, 'bestmodel#243.pb')
                     print('best model is updated')
 
                 plotdata(trloss, teloss, teacc)
@@ -183,18 +186,39 @@ if train_mode == True:
 else:
     # test model
 
-    model = torch.load('./bestmodel33.pb')
+    model = torch.load('./bestmodel#3.pb')
     dirlist = os.listdir('../dataset/val/')
-    dirpath = os.path.join('../dataset/val/', r.sample(dirlist, 1)[0])
-    filelist = os.listdir(dirpath)
-    filepath = os.path.join(dirpath, r.sample(filelist, 1)[0])
-    #img = cv2.imread('../dataset/val/0/45.png')
-    img = cv2.imread(filepath)
-    sol = model.predict(img, device)
-    print('prediction : {}'.format(sol))
-    cv2.imshow('result', img)
-    cv2.waitKey(-1)
-    #teloss_, teacc_ = test(model, test_loader, device)
-    #print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
+    teloss_, teacc_ = test(model, test_loader, device)
+    print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
+    while True:
+        dirpath = os.path.join('../dataset/val/', r.sample(dirlist, 1)[0])
+        filelist = os.listdir(dirpath)
+        filepath = os.path.join(dirpath, r.sample(filelist, 1)[0])
+        #img = cv2.imread('../dataset/val/0/45.png')
+        '''
+        with open(filepath, 'rb') as f:
+            img = Image.open(f)
+            img = img.convert('RGB')
+            img = transferFte(img)
+            img = img.numpy()
+            img = np.expand_dims(img, axis=0)
+            img = torch.tensor(img.astype('float32'))
+            img = img.to(device)
+
+            #img.to(device)
+        out = model(img)
+        print(out)
+        label = str(out.argmax().item())
+        sol = model.labeldict[label]
+        '''
+        img = cv2.imread(filepath)
+        cv2.imshow('result', img)
+        sol = model.predict(img, device)
+        print('prediction : {}'.format(sol))
+
+
+
+        cv2.waitKey(-1)
+
 
 
