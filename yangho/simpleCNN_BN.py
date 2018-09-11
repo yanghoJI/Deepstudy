@@ -14,15 +14,13 @@ import time
 
 # Training settings
 batch_size = 64
-bestacc = 0
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('runing device : {}'.format(device))
 # noodle Dataset
 transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor()])
-transferFte = Compose([Resize([224, 224]), ToTensor()])
 train_dataset = ImageFolder(root='../dataset/train/',transform=transferF)
-test_dataset = ImageFolder(root='../dataset/val/',transform=transferFte)
+test_dataset = ImageFolder(root='../dataset/val/',transform=transferF)
 
 
 # Data Loader (Input Pipeline)
@@ -43,16 +41,18 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.imagesize = (224,224,3)
         self.conv1 = nn.Conv2d(3, 10, kernel_size=5, padding=2)     #out 10,224,224
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5, padding=2)    #out 20,224,224
+        self.conv2_bn = nn.BatchNorm2d(20)
         self.mp1 = nn.MaxPool2d(2)                                   #out 20,112,112
 
         self.conv3 = nn.Conv2d(20, 20, kernel_size=3, padding=1)  # out 20,112,112
         self.conv4 = nn.Conv2d(20, 20, kernel_size=3, padding=1)  # out 20,112,112
+        self.conv4_bn = nn.BatchNorm2d(20)
         self.mp2 = nn.MaxPool2d(2)  # out 20,56,56
 
         self.fc1 = nn.Linear(20 * 56 * 56, 512)
+        self.fc1_bn = nn.BatchNorm1d(512)
         self.fc2 = nn.Linear(512, 4)
 
 
@@ -60,13 +60,13 @@ class Net(nn.Module):
         in_size = x.size(0)
 
         x = F.relu(self.conv1(x))
-        x = F.relu(self.mp1(self.conv2(x)))
+        x = F.relu(self.mp1(self.conv2_bn(self.conv2(x))))
 
         x = F.relu(self.conv3(x))
-        x = F.relu(self.mp2(self.conv4(x)))
+        x = F.relu(self.mp2(self.conv4_bn(self.conv4(x))))
 
         x = x.view(in_size, -1)  # flatten the tensor
-        x = self.fc1(x)
+        x = self.fc1_bn(self.fc1(x))
         x = self.fc2(x)             # batch, 4
 
         return F.log_softmax(x, dim=1)      #dim = classes dimension
@@ -91,6 +91,7 @@ def plotdata(trl, tel, tea):
     ax2 = plt.subplot(2, 1, 2)
     plt.plot(xlist, tea, 'b-', label='validation acc')
     #plt.ylim(0, 100)
+    #plt.xlim(0, 100)
     plt.yticks(range(0,101,10))
     plt.grid(True)
     plt.ylabel('acc(%)')
@@ -99,7 +100,7 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraphWithxavier#2.png', dpi=300)
+    plt.savefig('batchNorWithxavier.png', dpi=300)
     plt.close()
 
 def train(epoch):
@@ -129,8 +130,6 @@ def train(epoch):
 
 
 def test():
-    global bestacc
-    global Net
     model.eval()
     test_loss = 0
     correct = 0
@@ -151,15 +150,10 @@ def test():
         100. * correct / len(test_loader.dataset)))
     teloss.append(test_loss)
     teacc.append(100. * correct / len(test_loader.dataset))
-    if teacc[-1] > bestacc:
-        bestacc = teacc[-1]
-        torch.save(model, 'bestmodel33.pb')
-        print('best model is updated')
     model.train()
 
 
 
-
-for epoch in range(1, 50):
+for epoch in range(1, 100):
     train(epoch)
 
