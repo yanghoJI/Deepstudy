@@ -12,6 +12,7 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 from torch.utils.data.dataset import Dataset
 from torch.utils.data import DataLoader
+from PIL import Image
 
 # device check
 device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
@@ -22,12 +23,12 @@ batch_size = 64
 
 
 train_set = dset.ImageFolder(root='../dataset/train',transform = transforms.Compose([
-                                transforms.Resize([400,400]),
+                                transforms.RandomResizedCrop(400),
                                 transforms.ToTensor()
                                ]))
 
 validation_set = dset.ImageFolder(root='../dataset/val',transform = transforms.Compose([
-                                transforms.Resize([400,400]),
+                                transforms.RandomResizedCrop(400),
                                 transforms.ToTensor()]))
 
 # Data Loader (Input Pipeline)
@@ -46,15 +47,15 @@ class InceptionA(nn.Module):
 
     def __init__(self, in_channels):
         super(InceptionA, self).__init__()
-        self.branch1x1 = nn.Conv2d(in_channels, 24, kernel_size=1)
-        self.branch5x5_1 = nn.Conv2d(in_channels, 16, kernel_size=1)
-        self.branch5x5_2 = nn.Conv2d(16, 24, kernel_size=5, padding=2)
+        self.branch1x1 = nn.Conv2d(in_channels, 64, kernel_size=1, stride=2)
+        self.branch5x5_1 = nn.Conv2d(in_channels, 256, kernel_size=1)
+        self.branch5x5_2 = nn.Conv2d(256, 64, kernel_size=5, padding=2)
 
-        self.branch3x3dbl_1 = nn.Conv2d(in_channels, 16, kernel_size=1)
-        self.branch3x3dbl_2 = nn.Conv2d(16, 24, kernel_size=3, padding=1)
-        self.branch3x3dbl_3 = nn.Conv2d(24, 24, kernel_size=3, padding=1)
+        self.branch3x3dbl_1 = nn.Conv2d(in_channels, 256, kernel_size=1)
+        self.branch3x3dbl_2 = nn.Conv2d(256, 128, kernel_size=3, padding=1)
+        self.branch3x3dbl_3 = nn.Conv2d(128, 64, kernel_size=3, padding=1)
 
-        self.branch_pool = nn.Conv2d(in_channels, 24, kernel_size=1)
+        self.branch_pool = nn.Conv2d(in_channels, 64, kernel_size=1)
 
     def forward(self, x):
         branch1x1 = self.branch1x1(x)
@@ -84,7 +85,9 @@ class Net(nn.Module):
         self.incept2 = InceptionA(in_channels=20)
 
         self.mp = nn.MaxPool2d(2)
-        self.fc = nn.Linear(3668928, 4)
+        self.fc = nn.Linear(3668928, 10000)
+        self.fc = nn.Linear(10000, 4)
+#        self.fc = nn.Linear(1000, 4)
 
     def forward(self, x):
         in_size = x.size(0)
@@ -96,15 +99,9 @@ class Net(nn.Module):
         x = self.fc(x)
         return F.log_softmax(x)
 
-
-model = Net()
-model.to(device)
-
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
-trloss, teloss, teacc = [], [], []
-
-def save_checkpoint(state, filename='cnn_advanced.pth.tar'):
-    torch.save(state, filename)
+def weight_init(m):
+    if isinstance(m, torch.nn.Conv2d) or isinstance(m, torch.nn.Linear):
+        torch.nn.init.xavier_uniform_(m.weight)
 
 def plotdata(trl, tel, tea):
     xlist = range(len(trl))
@@ -126,61 +123,83 @@ def plotdata(trl, tel, tea):
 
     plt.tight_layout()
 
-    plt.savefig('TrainGraph#1.png', dpi=300)
+    plt.savefig('TrainGraph.png', dpi=300)
     plt.close()
 
-def train(epoch):
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data = data.to(device)
-        target = target.to(device)
-        optimizer.zero_grad()
-        output = model(data)
-        loss = F.nll_loss(output, target)
-        loss.backward()
-        optimizer.step()
-        trloss.append(loss.item())
-        if batch_idx % 10 == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.data[0]))
 
+model = Net()
+model.apply(weight_init)
+model.to(device)
 
-
-def test(epoch, best_acc):
-    model.eval()
-    test_loss = 0
-    correct = 0
-
-    for data, target in validation_loader:
-        data = data.to(device)
-        target = target.to(device)
-        output = model(data)
-        # sum up batch loss
-        test_loss += F.nll_loss(output, target, size_average=False).data[0]
-        # get the index of the max log-probability
-        pred = output.data.max(1, keepdim=True)[1]
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
-
-        if correct > best_acc:
-            save_checkpoint(epoch)
-            best_acc = correct
-        else:
-            pass
-
-    test_loss /= len(validation_loader.dataset)
-
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        test_loss, correct, len(validation_loader.dataset),
-        100. * correct / len(validation_loader.dataset)))
-
-    teloss.append(test_loss)
-    teacc.append(100. * correct / len(validation_loader.dataset))
-
+optimizer = optim.Adam(model.parameters(), lr=0.0005)
+trloss, teloss, teacc = [], [], []
 best_acc = 0
 
-for epoch in range(1, 151):
-    train(epoch)
-    test(epoch, best_acc)
+if train_mode == True:
+    # training model
+    optimizer = optim.Adam(model.parameters(), lr=0.0005)
+    trloss, teloss, teacc = [], [], []
+    bestacc = 0
+    for epoch in range(1, 30):
+        model.train()
+        for batch_idx, (data, target) in enumerate(train_loader):
+            # data, target = Variable(data), Variable(target)
+            # The Variable API has been deprecated: Variables are no longer necessary
+            data = data.to(device)
+            target = target.to(device)
+            optimizer.zero_grad()
+            output = model(data)
+            loss = F.nll_loss(output, target)
+            loss.backward()
+            optimizer.step()
+            if batch_idx % 10 == 0:
+                print('\n##############################')
+                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                    epoch, batch_idx * len(data), len(train_loader.dataset),
+                           100. * batch_idx / len(train_loader), loss.item()))
+                trloss.append(loss.item())
+                teloss_, teacc_ = test(model, test_loader, device)
+                teloss.append(teloss_)
+                teacc.append(teacc_)
+                if teacc_ > bestacc:
+                    bestacc = teacc_
+                    torch.save(model, 'bestmodel.pb')
+                    print('best model is updated')
 
-plotdata(trloss, teloss, teacc)
+                plotdata(trloss, teloss, teacc)
+
+else:
+    # test model
+
+    model = torch.load('./bestmodel.pb')
+    dirlist = os.listdir('../dataset/val/')
+    teloss_, teacc_ = test(model, test_loader, device)
+    print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
+    while True:
+        dirpath = os.path.join('../dataset/val/', r.sample(dirlist, 1)[0])
+        filelist = os.listdir(dirpath)
+        filepath = os.path.join(dirpath, r.sample(filelist, 1)[0])
+        #img = cv2.imread('../dataset/val/0/45.png')
+        '''
+        with open(filepath, 'rb') as f:
+            img = Image.open(f)
+            img = img.convert('RGB')
+            img = transferFte(img)
+            img = img.numpy()
+            img = np.expand_dims(img, axis=0)
+            img = torch.tensor(img.astype('float32'))
+            img = img.to(device)
+            #img.to(device)
+        out = model(img)
+        print(out)
+        label = str(out.argmax().item())
+        sol = model.labeldict[label]
+        '''
+        img = cv2.imread(filepath)
+        cv2.imshow('result', img)
+        sol = model.predict(img, device)
+        print('prediction : {}'.format(sol))
+
+
+
+        cv2.waitKey(-1)
