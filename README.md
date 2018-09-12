@@ -1,10 +1,10 @@
-# Deepstudy
+# Deepstud
 
 ## label info
 
 0. 오징어짬뽕
 
-1. 
+1. 비빔면
 
 2. 
 
