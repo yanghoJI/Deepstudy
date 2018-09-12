@@ -103,6 +103,6 @@ while True:
 
     cv2.imshow('result', img)
 
-    cv2.waitKey(500)
+    cv2.waitKey(300)
 
 
