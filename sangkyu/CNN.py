@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision.transforms import RandomCrop, Resize, Compose, ToTensor
 from torchvision import datasets, transforms
-from torch.autograd import Variable
+import matplotlib as plt
 
 # Training settings
 batch_size = 64
@@ -32,27 +32,59 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 10, kernel_size=5, stride= 2, padding =2)
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=5, stride= 2, padding =2)
+        self.conv2 = nn.Conv2d(64, 128, kernel_size=5)
+        self.conv3 = nn.Conv2d(128, 128, kernel_size=3)
         self.mp = nn.MaxPool2d(2)
-        self.fc1 = nn.Linear(20*62*62, 512)
-        self.fc2 = nn.Linear(512, 4)
+        self.fc1 = nn.Linear(128*30*30, 2048)
+        self.fc2 = nn.Linear(2048, 4)
 
     def forward(self, x):
         in_size = x.size(0)
-        x = F.relu(self.mp(self.conv1(x))) #(10,128,128)
-        x = F.relu(self.mp(self.conv2(x)))  #(20, 62, 62)
+        x = F.relu(self.mp(self.conv1(x))) #(64,128,128)
+        x = F.relu(self.mp(self.conv2(x)))  #(128, 62, 62)
+        x = F.relu(self.mp(self.conv3(x)))  #(128, 30, 30)
         x = x.view(in_size, -1)  # flatten the tensor
         x = self.fc1(x)
         x = self.fc2(x)
         return F.log_softmax(x)
 
+def weight_init(m):
+    if isinstance(m, torch.nn.Conv2d) or isinstance(m, torch.nn.Linear):
+        torch.nn.init.xavier_uniform_(m.weight)
+
+
+def plotdata(trl, tel, tea):
+    xlist = range(len(trl))
+    ax1 = plt.subplot(2, 1, 1)
+    plt.plot(xlist, trl, 'r-', label='train loss')
+    plt.plot(xlist, tel, 'b-', label='validation loss')
+    plt.ylabel('loss value')
+    plt.title('loss graph')
+    plt.legend(loc=1)
+
+    ax2 = plt.subplot(2, 1, 2)
+    plt.plot(xlist, tea, 'b-', label='validation acc')
+    #plt.ylim(0, 100)
+    #plt.xlim(0, 100)
+    plt.yticks(range(0,101,10))
+    plt.grid(True)
+    plt.ylabel('acc(%)')
+    plt.title('acc graph')
+    plt.legend(loc=1)
+
+    plt.tight_layout()
+
+    plt.savefig('batchNorWithxavier.png', dpi=300)
+    plt.close()
 
 model = Net()
+model.apply(weight_init)
 model.to(device)
 
 optimizer = optim.Adam(model.parameters(), lr=0.0005)
 
+trloss, teloss, teacc = [], [], []
 
 def train(epoch):
     model.train()
@@ -68,7 +100,10 @@ def train(epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data[0]))
-
+            trloss.append(loss.item())
+            acc =  test()
+            plotdata(trloss, teloss, teacc)
+    return acc
 
 def test():
     model.eval()
@@ -88,6 +123,8 @@ def test():
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(val_loader.dataset),
         100. * correct / len(val_loader.dataset)))
+    teloss.append(test_loss)
+    teacc.append(100. * correct / len(val_loader.dataset))
     return correct
 
 
@@ -95,12 +132,11 @@ def save_checkpoint(state, filename='model_adam.pth.tar'):
     torch.save(state, filename)
 
 
-acc = 0
+acc_ = 0
 for epoch in range(1, 201):
-    train(epoch)
-    accurancy = test()
-    if acc < accurancy:
-        acc = accurancy
+    accurancy = train(epoch)
+    if acc_ < accurancy:
+        acc_ = accurancy
         ep = epoch
-save_checkpoint(epoch)
-print('model saved at %d epoch'%epoch)
+save_checkpoint(ep)
+print('model saved at %d epoch'%ep)
