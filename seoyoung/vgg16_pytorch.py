@@ -21,7 +21,7 @@ if use_gpu:
 
 
 # device check
-device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('runing device : {}'.format(device))
 
 
@@ -53,7 +53,7 @@ validation_loader = torch.utils.data.DataLoader(dataset=validation_set,
 
 # Load the pretrained model from pytorch
 vgg16 = models.vgg16(pretrained=True)
-vgg16.load_state_dict(torch.load("/home/artint/.torch/models/vgg16-397923af.pth"))
+vgg16.load_state_dict(torch.load("./vgg16-397923af.pth"))
 print(vgg16.classifier[6].out_features) # 1000
 
 
@@ -78,7 +78,7 @@ resume_training = False
 
 if resume_training:
     print("Loading pretrained model..")
-    vgg16.load_state_dict(torch.load('/home/artint/.torch/models/vgg16-397923af.pth'))
+    vgg16.load_state_dict(torch.load('./vgg16-397923af.pth'))
     print("Loaded!")
 
 vgg16.to(device)
@@ -126,112 +126,9 @@ def test(vgg):
 
 
 
-'''
-def train_model(vgg, criterion, optimizer, scheduler, num_epochs=10):
-    since = time.time()
-    best_model_wts = copy.deepcopy(vgg.state_dict())
-    best_acc = 0.0
 
-    avg_loss = 0
-    avg_acc = 0
-    avg_loss_val = 0
-    avg_acc_val = 0
-
-
-    for epoch in range(num_epochs):
-        print("Epoch {}/{}".format(epoch, num_epochs))
-        print('-' * 10)
-
-        loss_train = 0
-        loss_val = 0
-        acc_train = 0
-        acc_val = 0
-
-        vgg.train(True)
-
-        for i, data in enumerate(train_loader):
-            if i % 100 == 0:
-                print("\rTraining batch {}/{}".format(i, batch_size / 2), end='', flush=True)
-
-            # Use half training dataset
-            if i >= batch_size / 2:
-                break
-
-            inputs, labels = data[0], data[1]
-
-            inputs = inputs.to(device)
-            labels = labels.to(device)
-
-            optimizer.zero_grad()
-
-            outputs = vgg(inputs)
-
-            _, preds = torch.max(outputs.data, 1)
-            loss = criterion(outputs, labels)
-
-            loss.backward()
-            optimizer.step()
-
-            loss_train += loss.item()
-            acc_train += torch.sum(preds == labels.data)
-
-            del inputs, labels, outputs, preds
-            torch.cuda.empty_cache()
-
-        print()
-        # * 2 as we only used half of the dataset
-        avg_loss = loss_train * 2 / len(train_set)
-        avg_acc = acc_train * 2 / len(train_set)
-
-        vgg.train(False)
-        vgg.eval()
-
-        for i, data in enumerate(validation_loader):
-            if i % 100 == 0:
-                print("\rValidation batch {}/{}".format(i, batch_size), end='', flush=True)
-
-            inputs, labels = data[0], data[1]
-
-            inputs = inputs.to(device)
-            labels = labels.to(device)
-
-            optimizer.zero_grad()
-
-            outputs = vgg(inputs)
-
-            _, preds = torch.max(outputs.data, 1)
-            loss = criterion(outputs, labels)
-
-            loss_val += loss.item()
-            acc_val += torch.sum(preds == labels)
-
-            del inputs, labels, outputs, preds
-            torch.cuda.empty_cache()
-
-        avg_loss_val = loss_val / len(validation_set)
-        avg_acc_val = acc_val / len(validation_set)
-
-        print()
-        print("Epoch {} result: ".format(epoch))
-        print("Avg loss (train): {:.4f}".format(avg_loss))
-        print("Avg acc (train): {:.4f}".format(avg_acc))
-        print("Avg loss (val): {:.4f}".format(avg_loss_val))
-        print("Avg acc (val): {:.4f}".format(avg_acc_val))
-        print('-' * 10)
-        print()
-
-        if avg_acc_val > best_acc:
-            best_acc = avg_acc_val
-            best_model_wts = copy.deepcopy(vgg.state_dict())
-
-    elapsed_time = time.time() - since
-    print()
-    print("Training completed in {:.0f}m {:.0f}s".format(elapsed_time // 60, elapsed_time % 60))
-    print("Best acc: {:.4f}".format(best_acc))
-
-    vgg.load_state_dict(best_model_wts)
-    return vgg
-'''
 for epoch in range(5):
     train(vgg16, optimizer_ft)
+    torch.save(vgg16, 'best#111.pb')
 test(vgg16)
+torch.save(vgg16, 'best#111.pb')
