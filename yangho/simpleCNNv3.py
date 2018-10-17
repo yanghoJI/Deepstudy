@@ -1,11 +1,13 @@
 # https://github.com/pytorch/examples/blob/master/mnist/main.py
+## add image normalization
+
 from __future__ import print_function
 import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torchvision.transforms import RandomCrop, Resize, Compose, ToTensor
+from torchvision.transforms import RandomCrop, Resize, Compose, ToTensor, Normalize
 from torchvision.datasets import ImageFolder
 import matplotlib.pyplot as plt
 import numpy as np
@@ -50,14 +52,20 @@ class Net(nn.Module):
 
         return F.log_softmax(x, dim=1)      #dim = classes dimension
 
-    def predict(self, imgarr, device):
+    def predict(self, filepath, device, trF):
+        inimage = Image.open(filepath)
+        inimage = inimage.convert('RGB')
+        inimage = trF(inimage)
+        inimage = inimage.view(1,3,224,224)
+        '''
         inimage = cv2.cvtColor(imgarr, cv2.COLOR_BGR2RGB)
         inimage = cv2.resize(inimage, (self.imagesize[0], self.imagesize[1]))
         inimage = np.transpose(inimage, (2, 0, 1)) / 255
         inimage = np.expand_dims(inimage, axis=0)
         inimage = torch.tensor(inimage.astype('float32'))
+        '''
         inimage = inimage.to(device)
-        netout = self.forward(torch.tensor(inimage))
+        netout = self.forward(inimage)
         label = str(netout.argmax().item())
         return self.labeldict[label]
 
@@ -130,8 +138,9 @@ train_mode = True
 
 
 # noodle Dataset build
-transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor()])
-transferFte = Compose([Resize([224, 224]), ToTensor()])
+normalize = Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+transferF = Compose([Resize([256, 256]), RandomCrop([224, 224]), ToTensor(), normalize])
+transferFte = Compose([Resize([224, 224]), ToTensor(), normalize])
 train_dataset = ImageFolder(root='../dataset/train/',transform=transferF)
 test_dataset = ImageFolder(root='../dataset/val/',transform=transferFte)
 # Data Loader (Input Pipeline)
@@ -177,7 +186,7 @@ if train_mode == True:
                 teacc.append(teacc_)
                 if teacc_ > bestacc:
                     bestacc = teacc_
-                    torch.save(model, 'bestmodel#243.pb')
+                    torch.save(model, 'modelv3#1.pb')
                     print('best model is updated')
 
                 plotdata(trloss, teloss, teacc)
@@ -186,10 +195,10 @@ if train_mode == True:
 else:
     # test model
 
-    model = torch.load('./bestmodel#243.pb')
+    model = torch.load('./modelv3#1.pb')
     dirlist = os.listdir('../dataset/val/')
-    teloss_, teacc_ = test(model, test_loader, device)
-    print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
+    #teloss_, teacc_ = test(model, test_loader, device)
+    #print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
     while True:
         dirpath = os.path.join('../dataset/val/', r.sample(dirlist, 1)[0])
         filelist = os.listdir(dirpath)
@@ -197,12 +206,12 @@ else:
         #img = cv2.imread('../dataset/val/0/45.png')
         img = cv2.imread(filepath)
         cv2.imshow('result', img)
-        sol = model.predict(img, device)
+        sol = model.predict(filepath, device, trF = transferFte)
         print('prediction : {}'.format(sol))
 
-
-
-        cv2.waitKey(-1)
+        key = cv2.waitKey(-1)
+        if key == ord('q'):
+            break
 
 
 
