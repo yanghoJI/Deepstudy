@@ -126,7 +126,7 @@ print('runing device : {}'.format(device))
 # Training settings
 batch_size = 64
 bestacc = 0
-train_mode = False
+train_mode = True
 
 
 # noodle Dataset build
@@ -186,7 +186,7 @@ if train_mode == True:
 else:
     # test model
 
-    model = torch.load('./bestmodel#3.pb')
+    model = torch.load('./bestmodel#243.pb')
     dirlist = os.listdir('../dataset/val/')
     teloss_, teacc_ = test(model, test_loader, device)
     print('test loss : {}\ttest acc : {:.2f} %'.format(teloss_, teacc_))
